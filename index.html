@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8fafc; /* Tailwind slate-50 */
+            background-color: #f8fafc; 
             padding-bottom: 0; 
         }
         h1, h2, h3, h4, h5, h6 {
@@ -40,7 +40,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex; 
             flex-direction: column; 
-            border-top: 4px solid #FFC72C; /* Yellow accent line */
+            border-top: 4px solid #FFC72C; 
+            height: 100%;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -81,14 +82,14 @@
             border-bottom: none;
             margin-right: 0.1rem; 
             white-space: nowrap; 
-            font-size: 0.7rem; 
+            font-size: 0.75rem; 
         }
         .tab-button i { 
             margin-right: 0.25rem;
         }
         .tab-button.active {
             background-color: #002855; 
-            color: #ffffff;
+            color: white;
             border-color: #002855;
         }
         .tab-button:hover:not(.active) {
@@ -142,10 +143,65 @@
         .survey-question ul li {
             margin-bottom: 0.25rem; 
         }
+        .tab-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            background-color: #f8fafc;
+            margin-bottom: 2rem;
+        }
         .tab-navigation-container {
             overflow-x: auto; 
             white-space: nowrap; 
             -webkit-overflow-scrolling: touch; 
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE/Edge */
+            scroll-behavior: smooth;
+            display: flex;
+            flex-grow: 1;
+            padding-bottom: 0;
+        }
+        .tab-navigation-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .scroll-btn {
+            display: none; 
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            bottom: 0;
+            background: #f8fafc;
+            border: none;
+            color: #002855;
+            padding: 0 12px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+        .scroll-btn:hover {
+            color: #FFC72C;
+        }
+        .scroll-btn-left {
+            left: 0;
+            background: linear-gradient(to right, #f8fafc 70%, transparent);
+            padding-right: 24px;
+        }
+        .scroll-btn-right {
+            right: 0;
+            background: linear-gradient(to left, #f8fafc 70%, transparent);
+            padding-left: 24px;
+        }
+        .scroll-btn i {
+            background-color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
         .executive-summary {
             background-color: #f0f4f8; 
@@ -175,6 +231,7 @@
             max-width: 500px; 
             border-radius: 0.75rem; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-top: 4px solid #FFC72C;
         }
         .modal-header {
             padding-bottom: 1rem;
@@ -277,6 +334,14 @@
             top: 0.125rem; 
             color: #FFC72C; 
         }
+        .risk-table th, .risk-table td {
+            border: 1px solid #e2e8f0; 
+            padding: 0.75rem; 
+            text-align: left;
+        }
+        .risk-table th {
+            background-color: #f1f5f9; 
+        }
         .ip-notice {
             text-align: center;
             padding: 0.5rem;
@@ -302,9 +367,9 @@
                 <img src="ESOL_logo.png" alt="Esol Education Logo" class="h-16 sm:h-20 object-contain" onerror="this.outerHTML='<span class=\'text-[#002855] font-bold text-2xl\'>ESOL Education</span>'">
             </div>
             
-            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">A Strategic Plan for Integrating Artificial Intelligence at AISA</h1>
-            <p class="text-lg sm:text-xl md:text-2xl mb-3 text-[#FFC72C] font-semibold">Empowering Our Students, Staff, and Community for an AI-Driven Future</p>
-            <p class="text-md sm:text-lg text-gray-200 max-w-3xl mx-auto">Aligning with the American International School in Abu Dhabi's mission to provide an international curriculum in a safe, multicultural environment that inspires globally-minded, critical thinkers to take responsibility for their society.</p>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Strategic AI Integration & Policy Plan: AISA</h1>
+            <p class="text-lg sm:text-xl md:text-2xl mb-3 text-[#FFC72C] font-semibold">Governance, Expectations, and Responsible Use</p>
+            <p class="text-md sm:text-lg text-gray-200 max-w-3xl mx-auto">Developing resilient learners and compassionate leaders for a dynamic world.</p>
         </div>
     </header>
     
@@ -319,102 +384,89 @@
             </button>
         </div>
 
-        <div class="mb-8">
-            <div class="tab-navigation-container border-b border-gray-300">
-                <button class="tab-button active" onclick="openTab(event, 'proposalTab')"><i class="fas fa-file-alt mr-1"></i>AI Integration Proposal</button>
-                <button class="tab-button" onclick="openTab(event, 'planTab')"><i class="fas fa-tasks mr-1"></i>Action Plan</button>
-                <button class="tab-button" onclick="openTab(event, 'pdPlanTab')"><i class="fas fa-users-cog mr-1"></i>Teacher PD</button>
-                <button class="tab-button" onclick="openTab(event, 'surveyTab')"><i class="fas fa-poll mr-1"></i>Surveys</button>
-                <button class="tab-button" onclick="openTab(event, 'governanceTab')"><i class="fas fa-balance-scale mr-1"></i>AI Governance & BYOD</button>
-                <button class="tab-button" onclick="openTab(event, 'ethicalFrameworkTab')"><i class="fas fa-shield-heart mr-1"></i>Ethical AI Framework</button>
+        <div class="tab-wrapper">
+            <button id="scrollLeftBtn" class="scroll-btn scroll-btn-left" aria-label="Scroll left">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="tab-navigation-container" id="tabContainer">
+                <button class="tab-button active" onclick="openTab(event, 'proposalTab')"><i class="fas fa-file-alt mr-1"></i>AI Proposal & Vision</button>
+                <button class="tab-button" onclick="openTab(event, 'governanceTab')"><i class="fas fa-balance-scale mr-1"></i>Digital Wellbeing Committee & Governance</button>
+                <button class="tab-button" onclick="openTab(event, 'ethicalFrameworkTab')"><i class="fas fa-shield-heart mr-1"></i>Guiding Principles & Ethics</button>
+                <button class="tab-button" onclick="openTab(event, 'planTab')"><i class="fas fa-tasks mr-1"></i>Action Plan & Tools</button>
+                <button class="tab-button" onclick="openTab(event, 'pdPlanTab')"><i class="fas fa-users-cog mr-1"></i>Teacher PD & Frameworks</button>
+                <button class="tab-button" onclick="openTab(event, 'pblTab')"><i class="fas fa-project-diagram mr-1"></i>PBL Example</button>
                 <button class="tab-button" onclick="openTab(event, 'communicationTab')"><i class="fas fa-bullhorn mr-1"></i>Communication</button>
-                <button class="tab-button" onclick="openTab(event, 'pblTab')"><i class="fas fa-project-diagram mr-1"></i>G3 PBL Example</button>
+                <button class="tab-button" onclick="openTab(event, 'surveyTab')"><i class="fas fa-poll mr-1"></i>Surveys</button>
                 <button class="tab-button" onclick="openTab(event, 'impactTab')"><i class="fas fa-chart-pie mr-1"></i>Measuring Impact</button>
-                <button class="tab-button" onclick="openTab(event, 'budgetTab')"><i class="fas fa-coins mr-1"></i>Budget & Resources</button>
+                <button class="tab-button" onclick="openTab(event, 'budgetTab')"><i class="fas fa-coins mr-1"></i>Resources</button>
             </div>
+            <button id="scrollRightBtn" class="scroll-btn scroll-btn-right" aria-label="Scroll right">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
 
         <div id="proposalTab" class="tab-content active">
             <section class="my-8 sm:my-12 executive-summary">
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Executive Summary</h2>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Executive Summary & AISA Policy Vision</h2>
                 <div class="text-gray-700 text-base sm:text-lg space-y-3">
-                    <p>This proposal outlines a <strong class="aisa-accent-text">strategic plan for the integration of Artificial Intelligence (AI)</strong> at the American International School in Abu Dhabi (AISA). The responsible and effective incorporation of AI in education is a present-day imperative, driven by rapid technological advancements, an evolving global job market, clear national directives from the UAE Ministry of Education, and the widespread adoption of AI in higher education. This plan is designed to benefit our students, staff, and the wider AISA and Esol Education community.</p>
-                    <p>Successful implementation of this comprehensive AI integration strategy relies on leveraging our robust existing tech ecosystem—specifically our **Google Workspace** environment, our **Apple BYOD (Bring Your Own Device) policy**, and our current **MagicSchool Enterprise** account. This initiative will empower AISA educators with innovative tools, personalize learning experiences for our students, and ensure they develop essential AI literacy and future-ready skills, while maintaining the utmost standards of digital safety and content monitoring.</p>
-                    <p>The proposed action plan, teacher professional development strategy, ethical governance framework, and stakeholder communication plan detailed herein provide a comprehensive roadmap. Investing in the thoughtful execution of this AI integration plan is a strategic investment in the future of AISA, positioning our school at the forefront of educational innovation in Abu Dhabi.</p>
+                    <p>This document establishes AISA’s institutional expectations for the strategic integration and use of artificial intelligence across teaching, learning, assessment, and operations. It is designed to do two things at once: <strong>protect students and institutional integrity, and equip the school community to use AI well.</strong></p>
+                    <p>If the policy only restricted AI, it would fail students who need to learn how to work with it. If it only enabled AI, it would fail the school’s obligations to safeguard data, uphold academic integrity, and comply with ADEK and UAE law.</p>
+                    <p>Successful implementation requires <strong class="aisa-accent-text">the Digital Wellbeing Committee</strong> to strategically and ethically embed AI. This ensures AI adoption is deliberate, safe, and educationally valuable, upholding AISA's Strategic Pillar 3 (Future-Ready Learning) which commits the school to preparing students for a world where AI is embedded in professional, academic, and civic life.</p>
                 </div>
             </section>
+            
             <section class="my-8 sm:my-12">
                 <h2 class="text-3xl sm:text-4xl font-bold text-center mb-6 text-gray-800">The AI Opportunity for AISA</h2>
                 <div class="bg-white p-6 rounded-lg shadow-md text-gray-700 text-base sm:text-lg space-y-4">
-                    <p>Artificial Intelligence is rapidly reshaping the educational landscape, offering unprecedented opportunities to enhance teaching methodologies, personalize learning experiences, and equip students with future-ready skills. For AISA, dedicated to inspiring "globally-minded, critical thinkers," strategically integrating AI is not just an option, but a vital pathway to elevate our esteemed American and IB educational programs.</p>
-                    <p>This proposal outlines a comprehensive plan for leveraging AI's transformative potential. It underscores the critical need for a <strong class="aisa-accent-text">structured approach, dedicated oversight, and a commitment to safe, filtered digital access</strong>. Successfully implementing this plan will ensure AISA students are equipped to lead, innovate, and thrive in an AI-powered world.</p>
+                    <p>Schools that adopt AI without governance structures tend to get stuck: tools proliferate without oversight, assessment integrity erodes quietly, and data protection becomes a retrospective problem. Research on organizational AI adoption consistently shows that institutions without formal governance frameworks experience higher rates of misuse, inconsistent practice, and compliance failures.</p>
+                    <p>At the same time, schools that over-restrict AI risk producing graduates who are less prepared than their peers for university and employment. The goal of this plan is not to slow AI adoption. It is to make it <strong>deliberate, safe, and educationally valuable</strong> for the American International School in Abu Dhabi.</p>
                 </div>
             </section>
 
             <section class="my-8 sm:my-12">
                 <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Why AI Now? The Imperative for AISA in 2026</h2>
                 <div class="bg-white p-6 rounded-lg shadow-md text-gray-700 text-base sm:text-lg space-y-6">
-                    <p>The urgency to integrate Artificial Intelligence into our educational framework is underscored by global trends, national mandates, and the immediate reality of the 2026 technology landscape. Proactive adoption is a necessity to support our educators and prepare our students.</p>
-
                     <div>
                         <h4 class="sub-section-title font-semibold aisa-accent-text mb-2"><i class="fas fa-globe-americas mr-2"></i>Global Transformation: The Future of Work & Skills</h4>
-                        <p>The World Economic Forum (WEF) continuously highlights AI as a primary driver of labor market transformation. Their research indicates that AI and related technologies will profoundly reshape industries and job roles. The WEF projects that while millions of jobs are displaced by automation, a vast number of new roles are emerging—virtually all requiring AI literacy and advanced cognitive flexibility.</p>
-                        <p class="mt-3">For AISA, this means equipping our students not just for today's jobs, but for the dynamic, AI-augmented careers of tomorrow. This requires fostering adaptability, critical thinking, and proficiency with AI tools within our rigorous curriculum.</p>
+                        <p>The World Economic Forum (WEF) highlights that AI is a major driver of labor market transformation. Approximately 86% of businesses anticipate that AI and information processing technologies will transform their operations by 2030. For AISA, this means equipping our students not just for today's jobs, but for the dynamic, AI-augmented careers of tomorrow.</p>
                     </div>
 
                     <div>
                         <h4 class="sub-section-title font-semibold aisa-accent-text mb-2"><i class="fas fa-university mr-2"></i>Higher Education Embraces AI</h4>
-                        <p>Universities and higher education institutions worldwide have rapidly integrated AI into their fabric. This adoption spans across curriculum development, adaptive learning platforms, advanced research methodologies, and student support. AISA graduates will increasingly enter university environments where AI proficiency is assumed and essential for academic success.</p>
+                        <p>Universities worldwide are rapidly integrating AI into their fabric—from curriculum development to adaptive learning and research. AISA graduates will enter university environments where AI proficiency is assumed and essential for success.</p>
                     </div>
 
                     <div>
                         <h4 class="sub-section-title font-semibold aisa-accent-text mb-2"><i class="fas fa-flag-checkered mr-2"></i>The UAE's National Vision: Leading in AI</h4>
-                        <p>The leadership of the United Arab Emirates has demonstrated an unwavering commitment to becoming a global leader in Artificial Intelligence, guided by the UAE National Strategy for Artificial Intelligence 2031. Crucially for AISA, the UAE Ministry of Education's mandate to make AI a mandatory subject across all schools emphasizes the local importance of this shift.</p>
-                        <p class="mt-3">By proactively executing this robust AI integration plan, AISA has a strategic opportunity to exceed these national directives, <strong class="font-semibold">becoming a leading example of excellence in AI education within Abu Dhabi and the wider Esol Education network.</strong></p>
+                        <p>The UAE Ministry of Education has announced that Artificial Intelligence will become a mandatory subject across all UAE public schools starting in the 2025-2026 academic year. By proactively executing this plan, AISA aligns with the UAE National Strategy for Artificial Intelligence 2031 and sets a benchmark for excellence in the private school sector.</p>
                     </div>
                 </div>
             </section>
 
             <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Leveraging the AISA Ecosystem</h2>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">How AI Can Elevate the AISA Experience</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8"> 
-                    
+                    <div class="card p-6">
+                        <div class="card-content">
+                            <div class="flex justify-center"><i class="fas fa-user-graduate icon-placeholder"></i></div>
+                            <h3 class="text-2xl font-semibold mb-3 text-center aisa-accent-text">Personalized Learning & Student Success</h3>
+                            <p class="text-gray-600 mb-4 text-sm sm:text-base">AI can tailor educational journeys to individual student needs, paces, and learning styles. Tools like <strong>Khanmigo</strong> (evaluate phase) or adaptive pathways ensure deeper understanding, supporting AISA's mission of academic excellence.</p>
+                        </div>
+                    </div>
+
                     <div class="card p-6">
                          <div class="card-content">
-                            <div class="flex justify-center"><i class="fas fa-magic icon-placeholder"></i></div>
-                            <h3 class="text-2xl font-semibold mb-3 text-center aisa-accent-text">Empowering AISA Educators (MagicSchool Enterprise)</h3>
-                            <p class="text-gray-600 mb-4 text-sm sm:text-base">We possess a massive advantage with our existing <strong class="font-semibold">MagicSchool Enterprise</strong> account. We will fully utilize this platform to automate routine tasks, draft communications, and differentiate content.</p>
-                            <h4 class="sub-section-title font-semibold mb-2 text-gray-700">AISA Application:</h4>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base">
-                                <li><strong>MagicSchool AI:</strong> Differentiating instruction by adapting reading levels for EAL students and generating supplementary materials aligned with our American and IB standards.</li>
-                                <li><strong>Rubric Generation:</strong> Creating complex rubrics for IB DP and PYP tasks.</li>
-                            </ul>
+                            <div class="flex justify-center"><i class="fas fa-chalkboard-teacher icon-placeholder"></i></div>
+                            <h3 class="text-2xl font-semibold mb-3 text-center aisa-accent-text">Empowering AISA Educators</h3>
+                            <p class="text-gray-600 mb-4 text-sm sm:text-base">Tools like <strong>MagicSchool Enterprise</strong> and <strong>Diffit</strong> automate routine tasks, draft communications, and dynamically level reading materials, freeing up our educators to focus on high-impact teaching and relationships.</p>
                         </div>
                     </div>
 
                     <div class="card p-6">
                         <div class="card-content">
-                            <div class="flex justify-center"><i class="fab fa-google icon-placeholder"></i></div>
-                            <h3 class="text-2xl font-semibold mb-3 text-center aisa-accent-text">Seamless Workspace Integration</h3>
-                            <p class="text-gray-600 mb-4 text-sm sm:text-base">AISA runs on Google Workspace. Our AI integration will heavily utilize AI enhancements within this familiar ecosystem to ensure a low barrier to entry for staff and students.</p>
-                            <h4 class="sub-section-title font-semibold mb-2 text-gray-700">AISA Application:</h4>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base">
-                                <li><strong>Google Gemini / NotebookLM:</strong> Utilizing integrated AI tutors and synthesizers for safe, source-grounded research.</li>
-                                <li><strong>Google Classroom Practice Sets:</strong> Offering students real-time hints and support as they work through problems.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card p-6">
-                        <div class="card-content">
-                            <div class="flex justify-center"><i class="fas fa-shield-alt icon-placeholder"></i></div>
-                            <h3 class="text-2xl font-semibold mb-3 text-center aisa-accent-text">Safe Apple BYOD Environment</h3>
-                            <p class="text-gray-600 mb-4 text-sm sm:text-base">AI integration must be safe. AISA operates an Apple BYOD policy. Our implementation plan aligns with the procurement of a new, robust student monitoring system.</p>
-                            <h4 class="sub-section-title font-semibold mb-2 text-gray-700">AISA Application:</h4>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base">
-                                <li><strong>Filtered Access:</strong> Ensuring students access only age-appropriate, vetted AI platforms on their Apple devices.</li>
-                                <li><strong>Digital Citizenship:</strong> Combining technical monitoring with robust education on ethical AI use.</li>
-                            </ul>
+                            <div class="flex justify-center"><i class="fas fa-clipboard-check icon-placeholder"></i></div>
+                            <h3 class="text-2xl font-semibold mb-3 text-center aisa-accent-text">Enhancing Assessment & Feedback</h3>
+                            <p class="text-gray-600 mb-4 text-sm sm:text-base">Utilizing tools like <strong>Brisk Teaching</strong> or <strong>Google Classroom Practice Sets</strong>, AI can offer more dynamic, timely, and insightful assessment methods, providing students with actionable feedback in real-time.</p>
                         </div>
                     </div>
 
@@ -422,177 +474,128 @@
                         <div class="card-content">
                             <div class="flex justify-center"><i class="fas fa-microchip icon-placeholder"></i></div>
                             <h3 class="text-2xl font-semibold mb-3 text-center aisa-accent-text">AI Literacy & Future Skills</h3>
-                            <p class="text-gray-600 mb-4 text-sm sm:text-base">Preparing students for an AI-driven world by teaching them about AI concepts, ethical considerations, and how to use AI tools responsibly as critical thinkers.</p>
-                            <h4 class="sub-section-title font-semibold mb-2 text-gray-700">AISA Application:</h4>
-                            <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base">
-                                <li><strong>Curriculum Integration:</strong> Incorporating age-appropriate AI concepts into IB and American tracks.</li>
-                                <li><strong>Project-Based Learning:</strong> Encouraging the use of AI as an ideation and collaborative partner for complex, transdisciplinary projects.</li>
-                            </ul>
+                            <p class="text-gray-600 mb-4 text-sm sm:text-base">Preparing students for an AI-driven world by teaching them about AI concepts, ethical considerations, and how to use tools (like <strong>Canva for Education</strong> and <strong>Gemini</strong>) responsibly to become principled global citizens.</p>
                         </div>
                     </div>
                 </div>
-            </section>
-            
-            <div id="customLinks-proposalTab" class="custom-links-container">
-            </div>
-        </div>
-
-        <div id="planTab" class="tab-content">
-            <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Strategic Action Plan for AI Integration</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">A phased approach to strategically integrate Artificial Intelligence at AISA, emphasizing a <strong class="aisa-accent-text">spiral implementation</strong>. We will build upon our existing MagicSchool Enterprise and Google Workspace foundations while rolling out the new Apple BYOD monitoring system to ensure a secure environment.</p>
-
-                <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-binoculars mr-3 aisa-accent-text"></i>Phase 1: Foundation & Infrastructure Readiness (Months 1-3)</h3>
-                    <p class="text-gray-600 mb-6 text-sm sm:text-base">Led by the Designated AI Lead/Team, to audit our current usage of MagicSchool and Google tools, and prepare the technical infrastructure for the new student monitoring system.</p>
-
-                    <h5 class="text-lg font-semibold text-gray-700 mb-2">Key Objectives & Actions:</h5>
-                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
-                        <li><strong>Audit Current Enterprise Usage:</strong> Evaluate how extensively teachers are currently using our MagicSchool Enterprise account. Identify power users and departments needing more support.</li>
-                        <li><strong>BYOD Monitoring System Deployment:</strong> Collaborate with the IT department to finalize the procurement, testing, and deployment of the new student monitoring system for Apple devices to ensure safe web and AI tool access.</li>
-                        <li><strong>Needs Assessment:</strong> Conduct surveys to identify challenges where AI could provide solutions and gauge AI readiness across all grades.</li>
-                    </ul>
-                </div>
-
-                <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-drafting-compass mr-3 aisa-accent-text"></i>Phase 2: Capacity Building & Policy Updates (Months 4-6)</h3>
-                    <p class="text-gray-600 mb-6 text-sm sm:text-base">Develop targeted professional development focused on maximizing our existing investments and update AISA policies to reflect the new monitoring capabilities and AI ethics.</p>
-
-                    <h5 class="text-lg font-semibold text-gray-700 mb-2">Key Objectives & Actions:</h5>
-                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
-                        <li><strong>Targeted PD Program:</strong> Design training specific to advanced features of MagicSchool Enterprise and Google Workspace AI tools, ensuring teachers move beyond basic usage to transformative pedagogy.</li>
-                        <li><strong>Update Acceptable Use Policies (AUP):</strong> Revise the student and staff AUPs to explicitly address the use of AI tools, data privacy, and the role of the new BYOD monitoring system in maintaining digital safety.</li>
-                        <li><strong>Curriculum Integration Plans:</strong> Collaborate with PYP, MYP, and DP coordinators to co-design specific AI integration plans relevant to IB requirements and university preparedness.</li>
-                    </ul>
-                </div>
-
-                <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-cogs mr-3 aisa-accent-text"></i>Phase 3: Implementation & Monitoring (Months 7-9)</h3>
-                    <p class="text-gray-600 mb-6 text-sm sm:text-base">Roll out the updated AI guidelines and the new monitoring software to the student body, accompanied by rigorous support and data collection.</p>
-
-                    <h5 class="text-lg font-semibold text-gray-700 mb-2">Key Objectives & Actions:</h5>
-                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
-                        <li><strong>Student Onboarding:</strong> Educate students on the updated AUP, the presence of the monitoring system, and the ethical expectations of using AI in their academic work.</li>
-                        <li><strong>Systematic Feedback Collection:</strong> Implement a mixed-methods approach to collect data on tool usage patterns, the effectiveness of MagicSchool interventions, and the performance of the monitoring software.</li>
-                        <li><strong>Facilitate Collaborative Learning:</strong> Organize regular check-in meetings for teachers to share experiences, successes, challenges, and effective MagicSchool prompts.</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-chart-line mr-3 aisa-accent-text"></i>Phase 4: Analysis, Refinement & Scaling (Months 10-12)</h3>
-                    <p class="text-gray-600 mb-6 text-sm sm:text-base">Analyze data, refine strategies, and ensure the AI initiatives are sustainable and fully aligned with AISA's mission for the next academic year.</p>
-
-                    <h5 class="text-lg font-semibold text-gray-700 mb-2">Key Objectives & Actions:</h5>
-                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
-                        <li><strong>Impact Reporting:</strong> Rigorously analyze all collected data to assess impact against our KPIs (teacher efficiency, student engagement, digital safety).</li>
-                        <li><strong>Refine Toolset:</strong> Evaluate if MagicSchool Enterprise and Google Workspace are sufficient, or if specialized subject-specific AI tools need to be budgeted for Year 2.</li>
-                        <li><strong>Showcase Successes:</strong> Share positive outcomes and student work with the broader AISA community, Esol Education network, and parents.</li>
-                    </ul>
-                </div>
-                 <div id="customLinks-planTab" class="custom-links-container">
-                 </div>
-            </section>
-        </div>
-
-        <div id="pdPlanTab" class="tab-content">
-            <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Teacher Professional Development (PD) Plan</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">Empowering AISA educators with the knowledge, skills, and ethical framework to effectively leverage our existing AI tools (MagicSchool & Google Workspace). This PD plan will be tailored to the context of our Apple BYOD environment.</p>
-
-                <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-chalkboard-teacher mr-3 aisa-accent-text"></i>Core PD Module 1: Mastering MagicSchool Enterprise</h3>
-                    <p class="text-gray-700 mb-4 text-sm sm:text-base">Since AISA has already invested in a MagicSchool Enterprise account, our primary focus is ensuring high adoption and advanced utilization across all departments.</p>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
-                        <li><strong>Deep Dive into Differentiation:</strong> Using MagicSchool to instantly adapt text levels, generate differentiated problem sets, and support EAL/SEN students efficiently.</li>
-                        <li><strong>Assessment & Rubric Design:</strong> Training teachers to utilize the tool for generating robust rubrics aligned with IB standards (PYP, MYP, DP) and American curriculum standards.</li>
-                        <li><strong>Administrative Efficiency:</strong> Streamlining parent communication, drafting IEP goals, and creating substitute lesson plans.</li>
-                        <li><strong>Enterprise Analytics (For Leadership):</strong> Training department heads on utilizing MagicSchool's enterprise data to track usage and identify PD needs.</li>
-                    </ul>
-                </div>
-
-                <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fab fa-google mr-3 aisa-accent-text"></i>Core PD Module 2: The Google Workspace AI Ecosystem</h3>
-                    <p class="text-gray-700 mb-4 text-sm sm:text-base">Leveraging the suite of tools our teachers and students are already familiar with.</p>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
-                        <li><strong>Google NotebookLM:</strong> Sourcing and uploading diverse materials to create tailored, secure AI assistants for research projects. Excellent for IB Extended Essays and senior research.</li>
-                        <li><strong>Gemini for Educators:</strong> Effective prompt engineering for lesson ideation, interactive quiz generation, and content adaptation.</li>
-                        <li><strong>Classroom Enhancements:</strong> Utilizing Google Classroom's AI-assisted practice sets for real-time student support.</li>
-                    </ul>
-                </div>
-
-                <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-tools mr-3 aisa-accent-text"></i>Core PD Module 3: Assessment Design & Academic Integrity</h3>
-                    <p class="text-gray-700 mb-4 text-sm sm:text-base">This phase focuses on adapting pedagogy in the age of generative AI, ensuring authentic assessment.</p>
-                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
-                        <li><strong>"AI-Proofing" vs. "AI-Integrating":</strong> Moving beyond traditional essays to ensure authentic demonstration of learning.</li>
-                        <li><strong>Process-Oriented Assessment:</strong> Assessing the learning journey (research process, drafts, reflections, collaboration) rather than just the final product.</li>
-                        <li><strong>Interactive Assessment Formats:</strong> Workshops on implementing oral defenses, Socratic seminars, and in-class debates.</li>
-                    </ul>
-                </div>
-
-                 <div id="customLinks-pdPlanTab" class="custom-links-container">
-                 </div>
-            </section>
-        </div>
-
-        <!-- Survey, Governance, Ethics, Communication, PBL, Impact tabs remain largely structurally similar but with color/AISA updates -->
-        
-        <div id="surveyTab" class="tab-content">
-            <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Sample AI Readiness & Perceptions Surveys</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">These sample questions are designed to gather initial insights from AISA teachers and students, helping us tailor our MagicSchool and Google Workspace PD.</p>
-
-                <div class="mb-12">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-user-tie mr-3 aisa-accent-text"></i>Sample Survey for Teachers</h3>
-                    <div class="survey-question">
-                        <p><strong>1. How frequently do you currently utilize our AISA MagicSchool Enterprise account?</strong></p>
-                        <ul>
-                            <li><input type="radio" name="ms_usage" value="daily"> Daily</li>
-                            <li><input type="radio" name="ms_usage" value="weekly"> Weekly</li>
-                            <li><input type="radio" name="ms_usage" value="rarely"> Rarely</li>
-                            <li><input type="radio" name="ms_usage" value="never"> Never / Unsure how to access</li>
-                        </ul>
-                    </div>
-                    <div class="survey-question">
-                        <p><strong>2. What do you see as the biggest potential benefit of using AI in your subject area?</strong></p>
-                        <textarea rows="3" class="w-full p-2 border border-gray-300 rounded-md text-sm sm:text-base" placeholder="Open-ended response"></textarea>
-                    </div>
-                    <div class="survey-question">
-                        <p><strong>3. How concerned are you about student academic integrity regarding AI tools?</strong></p>
-                        <ul>
-                            <li><input type="radio" name="integrity_concern" value="high"> Highly Concerned</li>
-                            <li><input type="radio" name="integrity_concern" value="mod"> Moderately Concerned</li>
-                            <li><input type="radio" name="integrity_concern" value="low"> Slightly/Not Concerned</li>
-                        </ul>
-                    </div>
-                </div>
-                 <div id="customLinks-surveyTab" class="custom-links-container"></div>
             </section>
         </div>
 
         <div id="governanceTab" class="tab-content">
             <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">AI Governance & Apple BYOD Infrastructure</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">Effective oversight is crucial for ethical integration. At AISA, this also intersects heavily with our Apple BYOD policy and the implementation of robust monitoring systems.</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Digital Wellbeing Committee & Governance</h2>
+                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">The Digital Wellbeing Committee holds governance responsibility for AI at AISA, acting in alignment with ADEK’s School Digital Policy.</p>
 
                 <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-shield-alt mr-3 aisa-accent-text"></i>BYOD Monitoring & Safe Access Policy</h3>
-                    <p class="text-gray-700 mb-4 text-sm sm:text-base">Given our Bring Your Own Device (BYOD) model featuring Apple devices, AISA is committed to ensuring a safe digital environment.</p>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
-                        <li><strong>Implementation of Monitoring System:</strong> AISA is finalizing the procurement of a comprehensive student device monitoring system. This software will be mandatory on student devices used on campus.</li>
-                        <li><strong>AI Content Filtering:</strong> The monitoring system will be configured to block unsafe or unvetted AI generation platforms while permitting access to school-approved tools (e.g., Google Workspace).</li>
-                        <li><strong>Data Privacy Compliance:</strong> The selection and operation of the monitoring system will strictly adhere to UAE data protection laws, ensuring student privacy is respected while maintaining campus digital safety.</li>
-                    </ul>
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-sitemap mr-3 aisa-accent-text"></i>Committee Composition for AI Governance</h3>
+                    <div class="overflow-x-auto shadow-md rounded-lg mb-6">
+                        <table class="min-w-full bg-white text-sm sm:text-base border border-gray-200">
+                            <thead class="bg-gray-100 text-gray-700">
+                                <tr>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Role</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">AI Governance Function</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-semibold">School Director (Chair)</td>
+                                    <td class="py-3 px-4">Final approval authority for AI tools and policy; accountability to ADEK and Board.</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4 font-semibold">Head of Innovation, AI & Digital Learning</td>
+                                    <td class="py-3 px-4">Curriculum integration, assessment validity, IB alignment.</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-semibold">IT / Data Protection Lead</td>
+                                    <td class="py-3 px-4">Technical vetting, data protection impact assessment, security compliance.</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4 font-semibold">Safeguarding Lead (DSL)</td>
+                                    <td class="py-3 px-4">Student safety review, age-appropriateness, content filtering.</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-semibold">Division Representatives</td>
+                                    <td class="py-3 px-4">Classroom practice input, implementation feedback by division.</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="py-3 px-4 font-semibold">Head of Inclusion</td>
+                                    <td class="py-3 px-4">Equity and accessibility review for students of determination.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="mb-10">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-sitemap mr-3 aisa-accent-text"></i>AISA AI Steering Committee</h3>
-                    <p class="text-gray-700 mb-4 text-sm sm:text-base">A dedicated committee will provide strategic oversight, ensuring alignment with AISA's values and Esol Education standards.</p>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
-                        <li>Oversee the AI strategy, BYOD monitoring implementation, and MagicSchool Enterprise ROI.</li>
-                        <li>Review and approve key policies, including acceptable use, data privacy, and academic integrity.</li>
-                        <li>Members to include: AI Lead, Senior Leadership, Head of IT, IB Coordinators, and Teacher Representatives.</li>
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-clipboard-check mr-3 aisa-accent-text"></i>AI Tool Approval & Procurement</h3>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base">No AI tool may be used for school-related purposes involving school data unless it appears on the AISA Approved Tools Register. The approval process targets a maximum of 15 school days.</p>
+                    
+                    <ul class="list-none space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="bg-[#FFC72C] text-[#002855] font-bold rounded-full h-8 w-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">1</span>
+                            <div><strong>Request (Day 0):</strong> Staff submit proposal to IT / Data Protection Lead via the AI Tool Request Form.</div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-[#FFC72C] text-[#002855] font-bold rounded-full h-8 w-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">2</span>
+                            <div><strong>Technical Review (Days 1-7):</strong> IT Lead assesses data protection, security, and safeguarding criteria.</div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-[#FFC72C] text-[#002855] font-bold rounded-full h-8 w-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">3</span>
+                            <div><strong>Pedagogical Review (Days 5-10):</strong> Head of Innovation evaluates instructional value, curriculum alignment, and assessment implications.</div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-[#FFC72C] text-[#002855] font-bold rounded-full h-8 w-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">4</span>
+                            <div><strong>Decision (Days 10-15):</strong> School Director (or Committee for complex cases) approves, conditionally approves (Pilot Status), or declines.</div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-[#FFC72C] text-[#002855] font-bold rounded-full h-8 w-8 flex items-center justify-center mr-3 mt-1 flex-shrink-0">5</span>
+                            <div><strong>Registration (Within 2 days):</strong> Added to Approved Tools Register.</div>
+                        </li>
                     </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-user-shield mr-3 aisa-accent-text"></i>Data Protection in Practice: Quick Decision Aid</h3>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base">AI tool use at AISA must comply with UAE Federal Decree-Law No. 45 of 2021. No student personal data may be entered into unapproved tools. Below is a practical guide for staff:</p>
+                    
+                    <div class="overflow-x-auto shadow-md rounded-lg">
+                        <table class="min-w-full bg-white text-sm sm:text-base border border-gray-200">
+                            <thead class="bg-gray-100 text-gray-700">
+                                <tr>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">What You Want to Do</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Data Involved</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Rule</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4">Analyze assessment patterns</td>
+                                    <td class="py-3 px-4">Student names + scores</td>
+                                    <td class="py-3 px-4 font-semibold text-red-600">Approved tool only, approved for assessment data</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4">Analyze assessment patterns</td>
+                                    <td class="py-3 px-4">De-identified scores (no names, no small-group identifiers)</td>
+                                    <td class="py-3 px-4 font-semibold text-green-600">Any approved tool</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4">Draft a lesson plan</td>
+                                    <td class="py-3 px-4">No student data</td>
+                                    <td class="py-3 px-4 font-semibold text-green-600">Any approved tool</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4">Draft a parent email about a student</td>
+                                    <td class="py-3 px-4">Student name + sensitive details</td>
+                                    <td class="py-3 px-4 font-semibold text-blue-600">Remove name/details from AI input; add back manually</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4">Upload a class photo for an AI task</td>
+                                    <td class="py-3 px-4">Student images (personal data)</td>
+                                    <td class="py-3 px-4 font-semibold text-red-600">Not permitted unless specifically approved</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                  <div id="customLinks-governanceTab" class="custom-links-container"></div>
             </section>
@@ -600,36 +603,298 @@
         
         <div id="ethicalFrameworkTab" class="tab-content">
             <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">AISA Ethical AI Framework</h2>
-                <p class="text-center text-gray-600 mb-6 text-base sm:text-lg">AISA is committed to harnessing AI to enrich education while upholding the highest ethical standards. This framework ensures AI is integrated responsibly, equitably, and in alignment with our mission to inspire critically thinking global citizens.</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Guiding Principles & Ethical Framework</h2>
+                <p class="text-center text-gray-600 mb-6 text-base sm:text-lg">These six principles are not aspirational statements. They are the criteria against which all AI-related decisions, tool approvals, and practices will be evaluated at AISA. Each principle carries equal weight.</p>
 
-                <h3 class="text-2xl sm:text-3xl font-semibold mb-6 section-title"><i class="fas fa-shield-heart mr-3 aisa-accent-text"></i>Core Ethical Pillars</h3>
-                
-                <div class="space-y-6">
+                <div class="space-y-6 mt-8">
                     <div class="ethical-pillar">
-                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-eye fa-fw mr-3 text-blue-800"></i>Digital Safety & Moderated Access</h5>
-                        <p class="text-gray-600 text-sm sm:text-base ml-8">Through our BYOD monitoring systems and managed Google Workspace environment, AISA actively safeguards students against harmful content, ensuring AI interactions are age-appropriate and secure.</p>
+                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-users fa-fw mr-3 text-blue-800"></i>Principle 1: Human-Centered Learning</h5>
+                        <p class="text-gray-600 text-sm sm:text-base ml-8">AI augments teaching and supports learning. It does not replace the professional judgement of teachers, the thinking of students, or the relational core of education. Every AI application must demonstrably serve student learning or operational effectiveness while preserving human agency in educational decisions.</p>
                     </div>
 
                     <div class="ethical-pillar">
-                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-graduation-cap fa-fw mr-3 text-teal-600"></i>Academic Integrity & Authentic Learning</h5>
-                        <p class="text-gray-600 text-sm sm:text-base ml-8">AI tools should be used to support authentic learning, not circumvent genuine student effort. AISA strictly enforces guidelines on plagiarism while teaching students how to properly cite and utilize AI as a collaborative partner.</p>
+                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-balance-scale fa-fw mr-3 text-green-600"></i>Principle 2: Ethics and Fairness</h5>
+                        <p class="text-gray-600 text-sm sm:text-base ml-8">AI use at AISA must be fair, transparent, and accountable. This means actively identifying and mitigating bias in AI outputs, ensuring equitable access across student populations, and never using AI to make consequential decisions about students without human oversight. This aligns with the UAE Charter for the Development and Use of Artificial Intelligence.</p>
                     </div>
-                    
+
                     <div class="ethical-pillar">
-                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-user-check fa-fw mr-3 text-purple-600"></i>Human Agency & Accountability</h5>
-                        <p class="text-gray-600 text-sm sm:text-base ml-8">While tools like MagicSchool enhance efficiency, human educators remain central. Critical human judgment, pedagogical expertise, and meaningful teacher-student interaction will always be maintained.</p>
+                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-graduation-cap fa-fw mr-3 text-yellow-600"></i>Principle 3: Academic Integrity</h5>
+                        <p class="text-gray-600 text-sm sm:text-base ml-8">AI must not undermine the validity of student assessment or the development of independent thinking. Students must be taught to use AI as a learning tool, not a substitute for intellectual effort. This reflects the IB’s requirement that AI-generated content in submitted work must be acknowledged and referenced.</p>
+                    </div>
+
+                    <div class="ethical-pillar">
+                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-user-shield fa-fw mr-3 text-purple-600"></i>Principle 4: Data Protection and Privacy</h5>
+                        <p class="text-gray-600 text-sm sm:text-base ml-8">Student and staff data are protected under UAE Federal Decree-Law No. 45 of 2021. No AI tool may process personal data without lawful basis, appropriate consent, and compliance with AISA’s data protection obligations.</p>
+                    </div>
+
+                    <div class="ethical-pillar">
+                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-heart fa-fw mr-3 text-red-600"></i>Principle 5: Safeguarding</h5>
+                        <p class="text-gray-600 text-sm sm:text-base ml-8">AI tools used with or by students must meet safeguarding standards, including age-appropriate access controls, content filtering, and protection from harmful, manipulative, or exploitative AI-generated content. Student wellbeing takes precedence over any operational or instructional benefit.</p>
+                    </div>
+
+                    <div class="ethical-pillar">
+                        <h5 class="sub-section-title font-semibold flex items-center"><i class="fas fa-chalkboard-teacher fa-fw mr-3 text-teal-600"></i>Principle 6: Professional Accountability</h5>
+                        <p class="text-gray-600 text-sm sm:text-base ml-8">Staff are professionally accountable for how they use AI. Using AI does not diminish a teacher’s responsibility for the quality, accuracy, and appropriateness of their professional work. Accountability also means modelling: if AISA expects students to engage in deep thinking, staff must demonstrate the same standard. AI should amplify professional thinking, not replace it.</p>
                     </div>
                 </div>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 section-title"><i class="fas fa-id-badge mr-3 aisa-accent-text"></i>Personal AI Accounts</h3>
+                    <p class="text-gray-700 text-sm sm:text-base">AISA recognises that many staff hold personal subscriptions to AI tools (e.g., personal ChatGPT). Using a personal AI account for school-adjacent thinking, brainstorming, or professional learning is not prohibited, provided that <strong>no student-identifiable data, staff-identifiable data, or confidential school information is entered.</strong> The line is this: if the AI tool touches school data, it must be approved.</p>
+                </div>
+
                  <div id="customLinks-ethicalFrameworkTab" class="custom-links-container"> </div>
             </section>
         </div>
 
+        <div id="planTab" class="tab-content">
+            <section class="my-8 sm:my-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Action Plan & Approved Tools Integration</h2>
+                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">AISA is deploying a phased, spiral implementation approach. This plan emphasizes building capacity progressively, starting with leveraging the tools already vetted and added to the <strong>AISA Approved Tools Register</strong>.</p>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-clipboard-list mr-3 aisa-accent-text"></i>Current AISA Approved AI Tools Register</h3>
+                    <div class="overflow-x-auto shadow-md rounded-lg">
+                        <table class="min-w-full bg-white text-sm sm:text-base border border-gray-200">
+                            <thead class="bg-gray-100 text-gray-700">
+                                <tr>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Tool</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Primary Use</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-semibold">MagicSchool AI (Enterprise)</td>
+                                    <td class="py-3 px-4">Lesson planning; assessment creation; differentiation; student AI literacy (via Student Rooms).</td>
+                                    <td class="py-3 px-4 text-green-600 font-bold">Active</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4 font-semibold">Google Gemini for Education</td>
+                                    <td class="py-3 px-4">Staff: AI-assisted drafting, Slides, Classroom. Students 13+: Gemini app for research (age-gated).</td>
+                                    <td class="py-3 px-4 text-green-600 font-bold">Active</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-semibold">Canva for Education</td>
+                                    <td class="py-3 px-4">AI-powered design platform for presentations, posters, and visual learning materials.</td>
+                                    <td class="py-3 px-4 text-green-600 font-bold">Active</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4 font-semibold">Brisk Teaching</td>
+                                    <td class="py-3 px-4">Browser-based AI assistant for comprehension questions, rubrics, and feedback within Google Docs.</td>
+                                    <td class="py-3 px-4 text-orange-500 font-bold">Pilot</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-semibold">Diffit</td>
+                                    <td class="py-3 px-4">Differentiated reading resource generation mapped to grade levels.</td>
+                                    <td class="py-3 px-4 text-orange-500 font-bold">Pilot</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="py-3 px-4 font-semibold">Khanmigo (Khan Academy)</td>
+                                    <td class="py-3 px-4">AI-powered Socratic tutoring for students (maths, science). Never provides direct answers.</td>
+                                    <td class="py-3 px-4 text-blue-500 font-bold">Evaluate</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-layer-group mr-3 aisa-accent-text"></i>Phase 1: Foundation & Discovery (Months 1-3)</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
+                        <li><strong>Deep Dive into Ecosystem:</strong> The Head of Innovation will meet with department heads, IT, and teachers to evaluate initial readiness and ensure infrastructure stability for Approved Tools.</li>
+                        <li><strong>Needs Assessment:</strong> Deploy comprehensive surveys (see Surveys tab) to gauge specific pedagogical pain points that MagicSchool or Brisk Teaching could alleviate (e.g., grading loads, EAL differentiation).</li>
+                        <li><strong>Drafting the Roadmap:</strong> Develop a high-level roadmap detailing the spiral implementation approach, mapping specific tools to targeted grade levels.</li>
+                    </ul>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-drafting-compass mr-3 aisa-accent-text"></i>Phase 2: Strategic Planning & Capacity Building (Months 4-6)</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
+                        <li><strong>Curriculum Integration:</strong> Collaborate with IB coordinators to design AI integration points for targeted cohorts (e.g., leveraging NotebookLM for Extended Essay research).</li>
+                        <li><strong>PD Rollout:</strong> Execute the foundational stages of the Teacher PD Plan, heavily focusing on the Ethical Framework, the 5-Step Scaffolding Scale, and proper Data Protection (anonymization).</li>
+                        <li><strong>Tool Piloting Setup:</strong> Finalize the test cohorts for the "Pilot" tools (Brisk and Diffit) and ensure technical readiness.</li>
+                    </ul>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-cogs mr-3 aisa-accent-text"></i>Phase 3: Pilot Implementation & Iterative Learning (Months 7-9)</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
+                        <li><strong>Launch & Support:</strong> Roll out active pilot usage in the classroom. Ensure teachers utilize the 5-Step Scaffolding Scale to communicate expectations to students.</li>
+                        <li><strong>Data Collection:</strong> Monitor MagicSchool enterprise analytics and gather qualitative feedback from pilot teachers via surveys and observation.</li>
+                        <li><strong>Policy Adherence:</strong> Actively monitor the ethical application of tools (e.g., avoiding PII input) and address any academic integrity breaches quickly.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-chart-line mr-3 aisa-accent-text"></i>Phase 4: Analysis, Refinement & Strategic Scaling (Months 10-12)</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
+                        <li><strong>Impact Reporting:</strong> The Digital Wellbeing Committee will rigorously analyze pilot data. </li>
+                        <li><strong>Tool Registry Updates:</strong> Formalize the transition of tools like Brisk and Diffit from "Pilot" to "Active" if successful, or decline them.</li>
+                        <li><strong>Strategic Scaling:</strong> Develop the plan for spiraling successful strategies to other grade levels and departments for the following academic year.</li>
+                    </ul>
+                </div>
+
+                 <div id="customLinks-planTab" class="custom-links-container"></div>
+            </section>
+        </div>
+
+        <div id="pdPlanTab" class="tab-content">
+            <section class="my-8 sm:my-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Teacher Professional Development & Assessment Frameworks</h2>
+                
+                <div class="mb-10 bg-blue-50 p-6 rounded-lg border-l-4 border-[#002855]">
+                    <h3 class="text-xl font-bold text-[#002855] mb-2">The Professional Standards Conversation (A Note on Workload)</h3>
+                    <p class="text-gray-700 text-sm sm:text-base">AI does not automatically reduce workload. As research notes (Ranganathan & Ye, 2026), AI adoption can intensify work by raising expectations for output quality. Furthermore, efficiency is not the same as effectiveness. The question for every professional at AISA is: <strong>where does AI amplify my thinking, and where does it replace it?</strong> Our PD starts here, ensuring AI compliance is low-friction and that assessment redesign is supported with collaborative planning time.</p>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-poll-h mr-3 aisa-accent-text"></i>Phase 1: Understanding Needs & Readiness</h3>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base">PD begins with deploying comprehensive readiness surveys to assess current AI usage, comfort levels, and perceived ethical challenges. The aggregated results directly inform the prioritization of training modules.</p>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-chalkboard-teacher mr-3 aisa-accent-text"></i>Phase 2: Foundational AI Literacy & Ethics</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
+                        <li><strong>Demystifying AI:</strong> Core concepts, LLMs, and AI's impact on K-12 education.</li>
+                        <li><strong>Ethical Application:</strong> Deep dives into Data Privacy (UAE laws, the Quick Data Decision Aid), Algorithmic Bias, and Academic Integrity.</li>
+                        <li><strong>The 5-Step Scaffolding Scale:</strong> Training teachers on how to use this scale to set clear expectations for student assignments.</li>
+                    </ul>
+                    
+                    <div class="overflow-x-auto shadow-md rounded-lg mt-6">
+                        <table class="min-w-full bg-white text-sm sm:text-base border border-gray-200">
+                            <thead class="bg-gray-100 text-gray-700">
+                                <tr>
+                                    <th class="text-left py-3 px-4 font-semibold border-b" colspan="3">The 5-Step Scaffolding Scale: Setting Expectations</th>
+                                </tr>
+                                <tr>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Level</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">Label</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b">What Students May/Must Do</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-bold text-center">1</td>
+                                    <td class="py-3 px-4 font-semibold text-red-600">No AI Assistance</td>
+                                    <td class="py-3 px-4">Students rely solely on their own knowledge. No AI tools are used at any point.</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4 font-bold text-center">2</td>
+                                    <td class="py-3 px-4 font-semibold text-orange-500">AI-Assisted Brainstorming</td>
+                                    <td class="py-3 px-4">Use AI to generate ideas. Final content must be created without direct AI input. AI must be cited.</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-bold text-center">3</td>
+                                    <td class="py-3 px-4 font-semibold text-yellow-600">AI-Supported Drafting</td>
+                                    <td class="py-3 px-4">AI can help with initial drafts. The final version must be significantly revised by the student.</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="py-3 px-4 font-bold text-center">4</td>
+                                    <td class="py-3 px-4 font-semibold text-green-500">AI-Collaborative Creation</td>
+                                    <td class="py-3 px-4">AI-generated content included. Students critically evaluate and edit. AI usage transparently cited.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-center">5</td>
+                                    <td class="py-3 px-4 font-semibold text-blue-600">AI as Co-Creator</td>
+                                    <td class="py-3 px-4">Extensive use of AI. Students provide a rationale for AI use and ensure original thought.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-tools mr-3 aisa-accent-text"></i>Phase 3: Practical Integration & Frameworks</h3>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base">Hands-on training with specific AISA Approved Tools (e.g., MagicSchool, NotebookLM) and the pedagogical frameworks that guide their use:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="pbl-card">
+                            <h5 class="text-xl mb-2"><i class="fas fa-project-diagram mr-2"></i>H-AI-H (Human Inquiry &rarr; AI &rarr; Human Empowerment)</h5>
+                            <p class="text-gray-600 text-sm sm:text-base">Every AI interaction should begin with the student's own inquiry, use AI as a productive tool in the middle, and conclude with human reflection, editing, and demonstrated understanding.</p>
+                        </div>
+                        <div class="pbl-card">
+                            <h5 class="text-xl mb-2"><i class="fas fa-search mr-2"></i>The SHIFT Framework for Critical Evaluation</h5>
+                            <ul class="list-none space-y-2 text-sm sm:text-base">
+                                <li><strong>S:</strong> Start your curiosity engine (What intrigues me?)</li>
+                                <li><strong>H:</strong> Hone in on a detail (What did AI get right/wrong?)</li>
+                                <li><strong>I:</strong> Identify your context (How does this fit my work?)</li>
+                                <li><strong>F:</strong> Frame it from a new perspective</li>
+                                <li><strong>T:</strong> Talk about what's missing (Limitations?)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-sync-alt mr-3 aisa-accent-text"></i>Phase 4: Ongoing Support & Community of Practice</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
+                        <li><strong>Dedicated Support:</strong> Virtual/in-person office hours with the Head of Innovation.</li>
+                        <li><strong>"AI Innovators" CoP:</strong> Establishing a voluntary group for passionate teachers to share best practices, pilot new tools, and lead peer-to-peer learning.</li>
+                        <li><strong>Subject-Specific Workshops:</strong> Advanced modules focusing on advanced prompt engineering and assessment redesign (e.g., shifting toward oral defenses and process-oriented projects).</li>
+                    </ul>
+                </div>
+
+                 <div id="customLinks-pdPlanTab" class="custom-links-container"></div>
+            </section>
+        </div>
+
+        <div id="pblTab" class="tab-content">
+            <section class="my-8 sm:my-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Grade 3 AI-Integrated Transdisciplinary PBL Example</h2>
+                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">This sample Project-Based Learning (PBL) unit demonstrates how Artificial Intelligence can be woven into a Grade 3 curriculum. The focus is on authentic learning experiences and the <strong>H-AI-H</strong> framework, utilizing only tools from the Approved Register.</p>
+
+                <div class="pbl-card">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-4 phase-title"><i class="fas fa-seedling mr-3 aisa-accent-text"></i>PBL Unit: Local Ecosystem Engineers!</h3>
+                    <p class="text-gray-700 mb-2 text-sm sm:text-base"><strong>Driving Question:</strong> How can we, as young scientists, use technology to investigate and share the amazing ways local plants and animals survive in Abu Dhabi?</p>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base"><strong>Project Goal:</strong> Students research a local plant or animal (e.g., Arabian Oryx, Ghaf tree) and create a multimedia presentation using approved AI tools to support research and creation.</p>
+                </div>
+
+                <h4 class="sub-section-title font-semibold"><i class="fas fa-puzzle-piece mr-2"></i>Subject Integration & AI Connections:</h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="pbl-card">
+                        <h5 class="text-xl mb-2"><i class="fas fa-book-open mr-2"></i>Language Arts</h5>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 text-xs sm:text-sm pl-4">
+                            <li><strong>Information Synthesis (Level 2):</strong> Teacher uploads curated articles into Google NotebookLM. Students ask questions to the source document to deepen understanding safely.</li>
+                            <li><strong>Teacher Prep:</strong> Teacher utilizes <strong>Diffit</strong> or <strong>MagicSchool Enterprise</strong> to instantly generate differentiated reading passages on the subject for varying EAL levels.</li>
+                        </ul>
+                    </div>
+
+                    <div class="pbl-card">
+                        <h5 class="text-xl mb-2"><i class="fas fa-calculator mr-2"></i>Mathematics</h5>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 text-xs sm:text-sm pl-4">
+                            <li><strong>Data Analysis:</strong> AI tools help create simple charts from inputted data about animal habitats.</li>
+                            <li><strong>Teacher Prep:</strong> Teachers use <strong>MagicSchool</strong> to generate differentiated word problems related to the ecosystem theme.</li>
+                        </ul>
+                    </div>
+
+                    <div class="pbl-card">
+                        <h5 class="text-xl mb-2"><i class="fas fa-flask mr-2"></i>Science</h5>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 text-xs sm:text-sm pl-4">
+                            <li><strong>"What if" Scenarios (Level 2):</strong> With teacher guidance via MagicSchool Student Rooms, the class explores cause-and-effect scenarios (e.g., "What happens if there is less rainfall?").</li>
+                            <li><strong>Presentation Design:</strong> Students use <strong>Canva for Education</strong>, utilizing its built-in Magic Design suggestions.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="sub-section-title font-semibold"><i class="fas fa-check-double mr-2"></i>Authentic Assessment Strategies:</h4>
+                <p class="text-gray-700 mb-4 text-sm sm:text-base">Assessment focuses on both process and product, adhering to Principle 3 (Academic Integrity).</p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
+                    <li><strong>Oral Defense/Presentation Q&A:</strong> Students answer questions about their research process, allowing teachers to gauge genuine understanding.</li>
+                    <li><strong>Research Journal (Process):</strong> Students maintain a journal noting their drafts, reflections, and how they used AI tools (including refining prompts).</li>
+                    <li><strong>Multimedia Presentation:</strong> Assessed via a rubric (generated via Brisk Teaching or MagicSchool) focusing on scientific accuracy and appropriate use of AI tools (Digital Citizenship).</li>
+                    <li><strong>AI Disclosure:</strong> Students practice noting where Canva Magic Design or NotebookLM assisted their work.</li>
+                </ul>
+
+                 <div id="customLinks-pblTab" class="custom-links-container"></div>
+            </section>
+        </div>
 
         <div id="communicationTab" class="tab-content">
             <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Stakeholder Communication Plan</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">Successful integration requires transparent communication with the AISA and Esol Education community.</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Stakeholder Communication & Engagement Plan</h2>
+                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">Successful and ethical integration of Artificial Intelligence requires transparent communication and active engagement with all members of the AISA community.</p>
 
                 <div class="mb-10">
                     <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-comments mr-3 aisa-accent-text"></i>Key Messages & Channels</h3>
@@ -639,109 +904,272 @@
                                 <tr>
                                     <th class="text-left py-3 px-4 font-semibold border-b border-[#FFC72C]">Stakeholder Group</th>
                                     <th class="text-left py-3 px-4 font-semibold border-b border-[#FFC72C]">Key Messages</th>
+                                    <th class="text-left py-3 px-4 font-semibold border-b border-[#FFC72C]">Communication Channels</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
                                 <tr class="border-b bg-gray-50">
-                                    <td class="py-3 px-4"><strong>Teachers & Academic Staff</strong></td>
-                                    <td class="py-3 px-4">Maximizing MagicSchool Enterprise and Google Workspace for efficiency. Pedagogical shifts for authentic assessment.</td>
+                                    <td class="py-3 px-4"><strong>Teachers & Staff</strong></td>
+                                    <td class="py-3 px-4">Leveraging Approved Tools (MagicSchool, Gemini, Canva). Utilizing the 5-Step Scaffolding Scale. Data privacy protocols & Quick Data Decision Aid.</td>
+                                    <td class="py-3 px-4">Staff meetings, PD sessions, dedicated AI portal, departmental meetings, surveys.</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="py-3 px-4"><strong>Students</strong></td>
-                                    <td class="py-3 px-4">Digital citizenship, expectations regarding the new BYOD monitoring software, and academic integrity policies.</td>
+                                    <td class="py-3 px-4">Digital citizenship, expectations for AI Disclosures, the SHIFT critical evaluation framework, and academic integrity policies.</td>
+                                    <td class="py-3 px-4">Advisory periods, classroom discussions led by teachers, student assemblies, workshops.</td>
                                 </tr>
                                 <tr class="border-b bg-gray-50">
                                     <td class="py-3 px-4"><strong>Parents & Guardians</strong></td>
-                                    <td class="py-3 px-4">AISA's commitment to digital safety via device monitoring, preparing students for the future, and academic integrity transparency.</td>
+                                    <td class="py-3 px-4">AISA's commitment to safeguarding via the Digital Wellbeing Committee, preparing students for the future, and maintaining rigorous academic integrity.</td>
+                                    <td class="py-3 px-4">Parent info evenings, termly AI newsletter articles, school website portal, FAQ documents.</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4"><strong>School Leadership / ESOL</strong></td>
+                                    <td class="py-3 px-4">Strategic alignment, ROI on enterprise licenses, policy adherence, and 15-day tool approval processing via the Committee.</td>
+                                    <td class="py-3 px-4">Formal presentations, regular reports, AI Steering Committee minutes.</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <div class="mb-10">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-calendar-alt mr-3 aisa-accent-text"></i>Phased Communication Timeline (First Year)</h3>
+                     <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
+                        <li><strong>Phase 1:</strong> Internal announcement to staff about the AI integration initiative and the Digital Wellbeing Committee structure. Launch teacher and student readiness surveys.</li>
+                        <li><strong>Phase 2:</strong> Share aggregated survey insights. Communicate the plan for foundational PD on AI literacy and ethics. Engage parents with an introductory overview of AISA's approach to AI.</li>
+                        <li><strong>Phase 3:</strong> Clear communication with pilot teachers and students about specific tools and expectations. Broader communication to the community about the ongoing pilot. First termly AI update article published.</li>
+                        <li><strong>Phase 4:</strong> Share key findings from pilot programs with leadership. Showcase early successes and student work to build enthusiasm. Second termly AI update article published.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-comments-dollar mr-3 aisa-accent-text"></i>Feedback Mechanisms</h3>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base">To ensure ongoing dialogue and responsiveness, the following feedback channels will be established:</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
+                        <li>Dedicated email address for AI-related queries managed by the Head of Innovation.</li>
+                        <li>Regular pulse surveys for teachers and students involved in AI initiatives.</li>
+                        <li>Open forums or Q&A sessions with the Digital Wellbeing Committee at key junctures.</li>
+                        <li>Incorporating AI-related discussion points into existing parent-teacher meetings.</li>
+                    </ul>
+                </div>
                  <div id="customLinks-communicationTab" class="custom-links-container"></div>
             </section>
         </div>
 
-        <div id="pblTab" class="tab-content">
+        <div id="surveyTab" class="tab-content">
             <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Grade 3 AI-Integrated Transdisciplinary PBL Example</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">Demonstrating how AI integrates into a Grade 3 curriculum using our Google Workspace tools.</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Sample AI Readiness & Perceptions Surveys</h2>
+                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">These sample questions are designed to gather initial insights from teachers and students, administered anonymously to tailor PD and strategy effectively.</p>
 
-                <div class="pbl-card">
-                    <h3 class="text-2xl sm:text-3xl font-semibold mb-4 phase-title"><i class="fas fa-seedling mr-3 aisa-accent-text"></i>PBL Unit: Ecosystem Engineers!</h3>
-                    <p class="text-gray-700 mb-2 text-sm sm:text-base"><strong>Project Goal:</strong> Students research a local plant or animal and create a multimedia presentation, using AI tools (within our secure Google ecosystem) to support research.</p>
-                    
-                    <h4 class="sub-section-title font-semibold"><i class="fab fa-google mr-2"></i>Google Workspace Integration:</h4>
-                    <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base pl-4">
-                        <li><strong>Information Synthesis with NotebookLM:</strong> Teacher uploads curated articles about local ecosystems into NotebookLM. Students ask questions to the sources to deepen understanding safely, without unrestricted web access.</li>
-                        <li><strong>Presentation Support:</strong> Utilizing Google Slides templates and safe image search features.</li>
-                        <li><strong>Teacher Prep (MagicSchool):</strong> The teacher utilizes MagicSchool to instantly generate differentiated reading passages on the Gazelle and Ghaf tree for varying reading levels in the classroom.</li>
-                    </ul>
+                <div class="mb-12">
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-user-tie mr-3 aisa-accent-text"></i>Sample Survey for AISA Teachers</h3>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base"><strong>Introduction:</strong> AISA is exploring ways to thoughtfully integrate AI to support teaching and learning. Your feedback shapes our approach.</p>
+
+                    <div class="survey-question">
+                        <p><strong>1. How frequently do you currently utilize tools from the AISA Approved Register (e.g., MagicSchool, Gemini, Canva)?</strong></p>
+                        <ul>
+                            <li><input type="radio" name="ms_usage" value="daily"> Daily</li>
+                            <li><input type="radio" name="ms_usage" value="weekly"> Weekly</li>
+                            <li><input type="radio" name="ms_usage" value="rarely"> Rarely</li>
+                            <li><input type="radio" name="ms_usage" value="never"> Never / Unsure how to access</li>
+                        </ul>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>2. How comfortable are you using the "5-Step Scaffolding Scale" to communicate AI expectations for assignments?</strong></p>
+                        <ul>
+                            <li><input type="radio" name="teacher_google_ai" value="very"> Very Comfortable</li>
+                            <li><input type="radio" name="teacher_google_ai" value="somewhat"> Somewhat Comfortable</li>
+                            <li><input type="radio" name="teacher_google_ai" value="uncomfortable"> Uncomfortable / Need Training</li>
+                        </ul>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>3. How confident are you in anonymizing data according to the "Quick Data Decision Aid" before using Approved AI tools?</strong></p>
+                         <ul>
+                            <li><input type="radio" name="teacher_confidence_ethics" value="very_confident"> Very confident</li>
+                            <li><input type="radio" name="teacher_confidence_ethics" value="moderately_confident"> Moderately confident</li>
+                            <li><input type="radio" name="teacher_confidence_ethics" value="not_confident"> Not confident</li>
+                        </ul>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>4. To what extent do you agree: AI can save teachers time on administrative tasks.</strong></p>
+                        <ul>
+                            <li><input type="radio" name="teacher_time" value="strongly_agree"> Strongly Agree</li>
+                            <li><input type="radio" name="teacher_time" value="agree"> Agree</li>
+                            <li><input type="radio" name="teacher_time" value="neutral"> Neutral</li>
+                            <li><input type="radio" name="teacher_time" value="disagree"> Disagree</li>
+                        </ul>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>5. What do you see as the biggest potential benefit of using AI in your subject area/grade level?</strong></p>
+                        <textarea rows="3" class="w-full p-2 border border-gray-300 rounded-md text-sm sm:text-base"></textarea>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>6. What is your biggest concern regarding the use of AI in education at AISA?</strong></p>
+                        <textarea rows="3" class="w-full p-2 border border-gray-300 rounded-md text-sm sm:text-base"></textarea>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>7. How concerned are you about the following ethical issues related to AI?</strong></p>
+                        <ul class="space-y-2">
+                            <li>Student academic integrity (plagiarism using AI) <input type="range" min="1" max="5" class="ml-2"></li>
+                            <li>Data privacy and security of student information <input type="range" min="1" max="5" class="ml-2"></li>
+                            <li>Algorithmic bias disadvantaging certain students <input type="range" min="1" max="5" class="ml-2"></li>
+                        </ul>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>8. What specific AI-related skills would be most beneficial for your professional development? (Select all that apply)</strong></p>
+                        <ul>
+                            <li><input type="checkbox" name="teacher_pd_skills" value="using_specific_tools"> Advanced prompt engineering (e.g., Gemini)</li>
+                            <li><input type="checkbox" name="teacher_pd_skills" value="ai_assessment"> Designing AI-resistant assessments</li>
+                            <li><input type="checkbox" name="teacher_pd_skills" value="ai_differentiation"> Using AI for differentiation (e.g., NotebookLM)</li>
+                            <li><input type="checkbox" name="teacher_pd_skills" value="ethical_guidance"> Teaching students about ethical AI use</li>
+                        </ul>
+                    </div>
                 </div>
-                 <div id="customLinks-pblTab" class="custom-links-container"></div>
+
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-semibold mb-6 phase-title"><i class="fas fa-user-graduate mr-3 aisa-accent-text"></i>Sample Survey for Students (Middle/High School)</h3>
+                    <p class="text-gray-700 mb-4 text-sm sm:text-base"><strong>Introduction:</strong> We want to know your thoughts on AI at AISA. Your honest answers help us make learning better.</p>
+
+                    <div class="survey-question">
+                        <p><strong>1. Have you ever used an AI tool (like ChatGPT, Canva Magic Design, or Gemini) for schoolwork?</strong></p>
+                        <ul>
+                            <li><input type="radio" name="student_use" value="yes_often"> Yes, often</li>
+                            <li><input type="radio" name="student_use" value="yes_sometimes"> Yes, sometimes</li>
+                            <li><input type="radio" name="student_use" value="no"> No, never</li>
+                        </ul>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>2. In what ways do you think AI could be MOST helpful for your learning?</strong></p>
+                        <textarea rows="3" class="w-full p-2 border border-gray-300 rounded-md text-sm sm:text-base" placeholder="e.g., explaining hard topics, brainstorming ideas..."></textarea>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>3. Do you have any worries about using AI for school? If so, what are they?</strong></p>
+                        <textarea rows="3" class="w-full p-2 border border-gray-300 rounded-md text-sm sm:text-base"></textarea>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>4. If you use an AI tool to help you brainstorm for an assignment, do you think it's important to cite it or tell your teacher?</strong></p>
+                        <ul>
+                            <li><input type="radio" name="student_ethics" value="yes_always"> Yes, always</li>
+                            <li><input type="radio" name="student_ethics" value="yes_sometimes"> It depends on the assignment level</li>
+                            <li><input type="radio" name="student_ethics" value="no"> No, not really</li>
+                        </ul>
+                    </div>
+                    <div class="survey-question">
+                        <p><strong>5. What do you think about using AI to write an entire essay or do a whole project for you?</strong></p>
+                        <ul>
+                            <li><input type="radio" name="student_ethics_originality" value="okay"> It's okay to do sometimes</li>
+                            <li><input type="radio" name="student_ethics_originality" value="not_okay"> It's not okay / it's like cheating</li>
+                            <li><input type="radio" name="student_ethics_originality" value="not_sure"> I'm not sure</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div id="customLinks-surveyTab" class="custom-links-container"></div>
             </section>
         </div>
 
         <div id="impactTab" class="tab-content">
             <section class="my-8 sm:my-12">
                 <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Measuring Impact & Continuous Improvement</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">A commitment to data-driven decision-making is central to AISA's strategy.</p>
+                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">A commitment to data-driven decision-making is central to AISA's strategy, monitored by the Digital Wellbeing Committee.</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h3 class="text-2xl sm:text-3xl font-semibold mb-6 section-title"><i class="fas fa-bullseye mr-3 aisa-accent-text"></i>Key Performance Indicators (KPIs)</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div class="pbl-card">
                         <h5 class="text-xl mb-2"><i class="fas fa-chalkboard-teacher mr-2"></i>Teacher & Tech Impact</h5>
                         <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base pl-4">
-                            <li><strong>MagicSchool Analytics:</strong> High, sustained adoption rates indicated by platform enterprise analytics.</li>
-                            <li><strong>Monitoring System Logs:</strong> Successful deployment and steady state of the BYOD monitoring system, with zero major security breaches.</li>
+                            <li><strong>Approved Tool Analytics:</strong> High, sustained adoption rates indicated by platform enterprise analytics (MagicSchool, Google Workspace, Canva).</li>
+                            <li><strong>Approval SLA:</strong> IT/Data Protection Lead meeting the 15-day turnaround target for new tool requests.</li>
                             <li>Teacher-reported increases in efficiency for tasks like lesson planning and differentiation.</li>
+                            <li>Reduction in unauthorized/unapproved tool usage.</li>
                         </ul>
                     </div>
                     <div class="pbl-card">
                         <h5 class="text-xl mb-2"><i class="fas fa-user-graduate mr-2"></i>Student Outcomes</h5>
                         <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base pl-4">
-                            <li>Enhanced student proficiency in AI literacy skills as per age-appropriate benchmarks.</li>
-                            <li>Demonstrable improvement in student engagement in AI-integrated IB/American curriculum lessons.</li>
+                            <li>Consistent student application of the SHIFT framework when evaluating sources.</li>
+                            <li>Proper utilization of AI Disclosures based on the 5-Step Scaffolding Scale set by teachers.</li>
+                            <li>Quality and depth of research in capstone projects (like the IB Extended Essay) using safe AI tools.</li>
+                            <li>Demonstrable improvement in student engagement in AI-integrated lessons.</li>
+                        </ul>
+                    </div>
+                    <div class="pbl-card md:col-span-2">
+                        <h5 class="text-xl mb-2"><i class="fas fa-school mr-2"></i>School-Level Impact</h5>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm sm:text-base pl-4">
+                            <li>Successful integration of AI literacy into the AISA curriculum, aligning with UAE MoE mandates.</li>
+                            <li>Recognition of AISA as a leader in innovative and responsible AI integration in education.</li>
+                            <li>Positive feedback from parents and the community on AISA's forward-thinking approach.</li>
                         </ul>
                     </div>
                 </div>
+
+                <h3 class="text-2xl sm:text-3xl font-semibold my-6 section-title"><i class="fas fa-database mr-3 aisa-accent-text"></i>Data Collection & Analysis Framework</h3>
+                <p class="text-gray-700 mb-4 text-sm sm:text-base">A mixed-methods approach will be employed for ongoing data collection:</p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
+                    <li><strong>Quantitative Data:</strong> Surveys, usage analytics from Approved Platforms (where ethical), and participation rates in PD.</li>
+                    <li><strong>Qualitative Data:</strong> Focus groups, interviews with teachers and students, classroom observations, and feedback from the Digital Wellbeing Committee.</li>
+                    <li><strong>Reporting:</strong> Regular reports on KPIs and progress will be shared with school leadership to inform strategic decisions.</li>
+                </ul>
+
+                <h3 class="text-2xl sm:text-3xl font-semibold my-6 section-title"><i class="fas fa-sync-alt mr-3 aisa-accent-text"></i>Iterative Improvement Cycle</h3>
+                <p class="text-gray-700 mb-4 text-sm sm:text-base">AISA will adopt a continuous improvement model for its AI strategy:</p>
+                <ol class="list-decimal list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
+                    <li><strong>Plan:</strong> Define goals and strategies for AI integration.</li>
+                    <li><strong>Do:</strong> Implement AI initiatives, including PD, tool deployment, and curriculum integration.</li>
+                    <li><strong>Check:</strong> Collect and analyze data on KPIs and monitor the ethical implications of AI use.</li>
+                    <li><strong>Act:</strong> Based on the analysis, refine strategies, update policies via the Committee, adjust PD programs, or scale successful initiatives.</li>
+                </ol>
+
                  <div id="customLinks-impactTab" class="custom-links-container"></div>
             </section>
         </div>
 
         <div id="budgetTab" class="tab-content">
             <section class="my-8 sm:my-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Budget & Resource Allocation Overview</h2>
-                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">Because AISA has already made strategic investments in core technology platforms, our AI integration budget for 2026 shifts focus from basic tool acquisition to **digital safety, specialized hardware management, and rigorous professional development.**</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Budget & Resource Plan Overview</h2>
+                <p class="text-center text-gray-600 mb-10 text-base sm:text-lg">Budgeting requires aligning resources specifically with the tools vetted and approved by the Digital Wellbeing Committee.</p>
 
-                <h3 class="text-2xl sm:text-3xl font-semibold mb-6 section-title"><i class="fas fa-check-circle mr-3 aisa-accent-text"></i>Maximizing Current Investments (Zero New Net Cost)</h3>
-                <p class="text-gray-700 mb-4 text-sm sm:text-base">We will actively avoid software bloat and redundant spending by fully leveraging the enterprise tools we already pay for:</p>
+                <h3 class="text-2xl sm:text-3xl font-semibold mb-6 section-title"><i class="fas fa-tablet-alt mr-3 aisa-accent-text"></i>Student Access to Technology</h3>
+                <p class="text-gray-700 mb-4 text-sm sm:text-base">A foundational element for effective AI integration is ensuring equitable access to technology. AISA's existing device policies (and any associated monitoring systems to ensure safe access) form the bedrock upon which these digital tools operate securely.</p>
+
+                <h3 class="text-2xl sm:text-3xl font-semibold my-6 section-title"><i class="fas fa-hand-holding-usd mr-3 aisa-accent-text"></i>Approved AI Tools & Platforms</h3>
+                <p class="text-gray-700 mb-4 text-sm sm:text-base">Our strategy prioritizes the use of high-quality, ethically sound tools currently on the AISA Approved Register:</p>
                 <ul class="list-disc list-inside text-gray-600 space-y-3 text-sm sm:text-base pl-4">
-                    <li><strong>MagicSchool Enterprise:</strong> The foundation of our teacher productivity and differentiation strategy. We will ensure 100% onboarding to maximize ROI.</li>
-                    <li><strong>Google Workspace for Education:</strong> Our core ecosystem for student and staff collaboration, utilizing inclusive AI features like NotebookLM and Classroom practice sets without requiring additional third-party subscriptions.</li>
-                </ul>
-
-                <h3 class="text-2xl sm:text-3xl font-semibold my-6 section-title"><i class="fas fa-shield-alt mr-3 text-red-600"></i>Primary New Budget Item: Apple BYOD Monitoring System</h3>
-                <p class="text-gray-700 mb-4 text-sm sm:text-base">The most significant resource allocation required for safe AI integration is the procurement and licensing of a robust student device monitoring and filtering system.</p>
-                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
-                    <li><strong>Software Licensing:</strong> Annual per-user licensing costs for MDM (Mobile Device Management) and content filtering software compatible with iOS/macOS (e.g., Jamf, Securly, or Linewize).</li>
-                    <li><strong>IT Infrastructure Support:</strong> Potential allocation for IT staff time or external consultation to correctly configure the monitoring software across the BYOD network, ensuring compliance with UAE data regulations and school AUPs.</li>
+                    <li><strong>Google Workspace for Education:</strong> Core ecosystem for staff collaboration, utilizing Gemini and NotebookLM with enterprise-grade data protection under our existing terms.</li>
+                    <li><strong>MagicSchool AI (Enterprise):</strong> Foundation of our teacher productivity strategy. Securing and maximizing the enterprise license ensures data safety and SSO compliance.</li>
+                    <li><strong>Canva for Education:</strong> Free for verified K-12 institutions, offering safe visual AI tools.</li>
+                    <li><strong>Pilot Tool Allocations:</strong> Budgeting for potential scale-up of <strong>Brisk Teaching</strong> and <strong>Diffit</strong> pending their successful Semester 1 pilot reviews by the IT Lead and Head of Innovation.</li>
                 </ul>
 
                 <h3 class="text-2xl sm:text-3xl font-semibold my-6 section-title"><i class="fas fa-users-cog mr-3 aisa-accent-text"></i>Professional Development & Leadership</h3>
-                <p class="text-gray-700 mb-4 text-sm sm:text-base">Ongoing, high-quality professional development is key to moving past basic tool usage to advanced pedagogical application.</p>
                 <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
-                    <li>Budget for external trainers or specialized workshops for advanced MagicSchool application or IB-specific AI integration.</li>
-                    <li>Registration for relevant conferences (e.g., ISTE, local ADEK events) for the Designated AI Lead and key teacher leaders.</li>
+                    <li>Allocation of dedicated time for the IT/Data Protection Lead to manage the 15-day AI Tool Request pipeline.</li>
+                    <li>Collaborative planning time within the PD calendar explicitly reserved for assessment redesign.</li>
+                    <li>Registration for relevant conferences (e.g., ISTE) for the Head of Innovation to ensure AISA remains future-proofed.</li>
                 </ul>
+
+                <h3 class="text-2xl sm:text-3xl font-semibold my-6 section-title"><i class="fas fa-chart-line mr-3 aisa-accent-text"></i>Future-Proofing & Sustainability</h3>
+                <p class="text-gray-700 mb-2 text-sm sm:text-base">To ensure long-term sustainability, AISA will:</p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm sm:text-base pl-4">
+                    <li>Conduct an annual review of AI tool subscriptions via the Digital Wellbeing Committee.</li>
+                    <li>Continuously explore emerging AI tools, prioritizing educational value and transparent pricing.</li>
+                    <li>Build internal capacity through the "AI Innovators" community to reduce long-term reliance on external paid training where feasible.</li>
+                </ul>
+
                  <div id="customLinks-budgetTab" class="custom-links-container"></div>
             </section>
         </div>
 
+        <!-- Floating Scroll-to-Tabs Button -->
+        <button id="scrollToTabsBtn" class="fixed bottom-6 right-6 bg-[#FFC72C] text-[#002855] w-14 h-14 rounded-full shadow-2xl hover:bg-[#e5b327] hover:scale-110 transition-all duration-300 z-50 flex items-center justify-center opacity-0 pointer-events-none" title="Back to Tabs" aria-label="Scroll back to tabs">
+            <i class="fas fa-arrow-up text-xl"></i>
+        </button>
 
     </main>
 
     <div id="addLinkModal" class="modal">
-        <div class="modal-content border-t-4 border-[#FFC72C]">
+        <div class="modal-content">
             <div class="modal-header">
                 <span class="close-button" onclick="closeModal('addLinkModal')">&times;</span>
                 <h2>Add New Resource Link</h2>
@@ -759,26 +1187,25 @@
                     <label for="linkTargetTab" class="form-label">Select Tab to Add Link To:</label>
                     <select id="linkTargetTab" name="linkTargetTab" class="form-select focus:outline-none focus:border-[#002855]" required>
                         <option value="" disabled selected>Choose a tab...</option>
-                        <option value="proposalTab">AI Integration Proposal Tab</option>
-                        <option value="planTab">Action Plan Tab</option>
-                        <option value="pdPlanTab">Teacher PD Plan Tab</option>
-                        <option value="surveyTab">Sample Surveys Tab</option>
-                        <option value="governanceTab">AI Governance & BYOD Tab</option>
-                        <option value="ethicalFrameworkTab">Ethical AI Framework Tab</option>
+                        <option value="proposalTab">AI Proposal & Vision Tab</option>
+                        <option value="governanceTab">Digital Wellbeing Committee Tab</option>
+                        <option value="ethicalFrameworkTab">Guiding Principles Tab</option>
+                        <option value="planTab">Action Plan & Tools Tab</option>
+                        <option value="pdPlanTab">Teacher PD Tab</option>
+                        <option value="pblTab">PBL Example Tab</option>
                         <option value="communicationTab">Communication Plan Tab</option>
-                        <option value="pblTab">Grade 3 PBL Example Tab</option>
+                        <option value="surveyTab">Sample Surveys Tab</option>
                         <option value="impactTab">Measuring Impact Tab</option>
                         <option value="budgetTab">Budget & Resources Tab</option>
                     </select>
                 </div>
                 <div class="mt-6 flex justify-end space-x-3">
-                     <button type="button" onclick="closeModal('addLinkModal')" class="px-6 py-2 rounded-md bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold transition-colors">Cancel</button>
-                    <button type="submit" class="button-style">Save Link</button>
+                     <button type="button" onclick="closeModal('addLinkModal')" class="button-style bg-gray-300 hover:bg-gray-400 text-gray-800">Cancel</button>
+                    <button type="submit" class="button-style aisa-accent-bg hover:bg-opacity-80 text-white border-none">Save Link</button>
                 </div>
             </form>
         </div>
     </div>
-
 
     <script>
         function openTab(event, tabName) {
@@ -795,6 +1222,9 @@
             document.getElementById(tabName).style.display = "block";
             document.getElementById(tabName).classList.add("active");
             event.currentTarget.classList.add("active");
+            
+            // Scroll the active tab into view centrally
+            event.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -928,7 +1358,58 @@
                 }
             });
 
-            // Function to show custom alert
+            // Horizontal Tab Scroll Logic
+            const tabContainer = document.getElementById('tabContainer');
+            const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+            const scrollRightBtn = document.getElementById('scrollRightBtn');
+
+            function updateTabScrollButtons() {
+                if (!tabContainer || !scrollLeftBtn || !scrollRightBtn) return;
+                if (tabContainer.scrollWidth > tabContainer.clientWidth) {
+                    scrollLeftBtn.style.display = tabContainer.scrollLeft > 0 ? 'flex' : 'none';
+                    // 1px tolerance for rounding
+                    scrollRightBtn.style.display = Math.ceil(tabContainer.scrollLeft + tabContainer.clientWidth) < tabContainer.scrollWidth ? 'flex' : 'none';
+                } else {
+                    scrollLeftBtn.style.display = 'none';
+                    scrollRightBtn.style.display = 'none';
+                }
+            }
+
+            if (tabContainer && scrollLeftBtn && scrollRightBtn) {
+                scrollLeftBtn.addEventListener('click', () => {
+                    tabContainer.scrollBy({ left: -250, behavior: 'smooth' });
+                });
+                scrollRightBtn.addEventListener('click', () => {
+                    tabContainer.scrollBy({ left: 250, behavior: 'smooth' });
+                });
+                tabContainer.addEventListener('scroll', updateTabScrollButtons);
+                window.addEventListener('resize', updateTabScrollButtons);
+                setTimeout(updateTabScrollButtons, 150);
+            }
+
+            // Smooth Scroll to Tabs Button Logic
+            const scrollToTabsBtn = document.getElementById('scrollToTabsBtn');
+            const tabNavigationContainer = document.querySelector('.tab-navigation-container');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 350) {
+                    scrollToTabsBtn.classList.remove('opacity-0', 'pointer-events-none');
+                    scrollToTabsBtn.classList.add('opacity-100', 'pointer-events-auto');
+                } else {
+                    scrollToTabsBtn.classList.add('opacity-0', 'pointer-events-none');
+                    scrollToTabsBtn.classList.remove('opacity-100', 'pointer-events-auto');
+                }
+            });
+
+            if (scrollToTabsBtn && tabNavigationContainer) {
+                scrollToTabsBtn.addEventListener('click', () => {
+                    // Account for the sticky IP notice header so it doesn't overlap the tabs
+                    const yOffset = -70; 
+                    const y = tabNavigationContainer.getBoundingClientRect().top + window.scrollY + yOffset;
+                    window.scrollTo({top: y, behavior: 'smooth'});
+                });
+            }
+
             function showCustomAlert(message) {
                 let alertModal = document.getElementById('customAlertModal');
                 if (!alertModal) {
@@ -946,6 +1427,7 @@
                     
                     const alertTitle = document.createElement('h2');
                     alertTitle.textContent = 'Notification';
+                    alertTitle.style.color = '#002855';
                     
                     const closeAlertButton = document.createElement('span');
                     closeAlertButton.classList.add('close-button');
